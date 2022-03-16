@@ -168,9 +168,9 @@ public class ReportsController {
     //Adds query results to model and redirects to appropiate page
     @RequestMapping("/reports")
     public String showReports(ModelMap model) {
-        model.addAttribute("top10Count", getTop10Count());
-        model.addAttribute("bot10Count", getBottom10Count());
-        model.addAttribute("top10Percent", getTop10Inf());
+        model.addAttribute("top10Count", getTop10CountDummy());
+        model.addAttribute("bot10Count", getBottom10CountDummy());
+        model.addAttribute("top10Percent", getTop10InfDummy());
         System.out.println("reports");
         return "reports";
 	}

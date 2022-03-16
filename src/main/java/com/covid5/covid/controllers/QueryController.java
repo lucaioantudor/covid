@@ -163,7 +163,7 @@ public class QueryController {
     String date, ModelMap model) {
         System.out.println("query");
         if(country != null && date != null) {
-            model.addAttribute("infectionsAndDeaths", getQuery(country, date));
+            model.addAttribute("infectionsAndDeaths", getQueryDummy(country, date));
         }
         return "query";
 	}
