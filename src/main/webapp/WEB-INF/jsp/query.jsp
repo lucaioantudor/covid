@@ -95,8 +95,11 @@
                 } else {
                     if(request.getParameter("country") != null && request.getParameter("date") != null) {
                         if(request.getAttribute("infectionsAndDeaths") != null) {
+                            //store query result in list
                             ArrayList<ArrayList<String>> infectionsAndDeaths= (ArrayList<ArrayList<String>>)request.getAttribute("infectionsAndDeaths");
                             if(infectionsAndDeaths.size() > 0) {
+                            //query result is not empty
+                                //create table to display query result
                                 out.println("<div class = \"table-div\"><table><caption><b>" + request.getParameter("country") +
                                 "</b></caption><tr><th>Date</th><th>Infections</th><th>Deaths</th></tr>");
                                 for(List<String> entry : infectionsAndDeaths) {
@@ -108,6 +111,7 @@
                                 }
                                 out.println("</table></div>");
                             } else {
+                            //query result is emty
                                 out.println("<p>Invalid country name or date too early</p>"); 
                             }
                         } else {

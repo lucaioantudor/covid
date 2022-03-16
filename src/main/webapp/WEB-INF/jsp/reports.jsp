@@ -57,8 +57,6 @@
         table {
             width: 100%;
         }
-
-
     </style>
 </head>  
 <body>
@@ -78,7 +76,9 @@
                 </tr>
                 <%
                     int index = 1;
+                    //store query result in list
                     ArrayList<ArrayList<String>> top10Count= (ArrayList<ArrayList<String>>)request.getAttribute("top10Count");
+                    //create table rows from query result
                     for(List<String> entry : top10Count) {
                         out.println("<tr>"); 
                         out.println("<td>" + index++ + "</td>"); 
@@ -97,7 +97,9 @@
                 </tr>
                 <%
                     index = 1;
+                    //store query result in list
                     ArrayList<ArrayList<String>> bot10Count= (ArrayList<ArrayList<String>>)request.getAttribute("bot10Count");
+                    //create table rows from query result
                     for(List<String> entry : bot10Count) {
                         out.println("<tr>"); 
                         out.println("<td>" + index++ + "</td>"); 
@@ -116,7 +118,9 @@
                 </tr>
                 <%
                     index = 1;
+                    //store query result in list
                     ArrayList<ArrayList<String>> top10Percent= (ArrayList<ArrayList<String>>)request.getAttribute("top10Percent");
+                    //create table rows from query result
                     for(List<String> entry : top10Percent) {
                         out.println("<tr>"); 
                         out.println("<td>" + index++ + "</td>"); 

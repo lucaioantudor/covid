@@ -1,18 +1,10 @@
 package com.covid5.covid.controllers;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,6 +14,7 @@ import java.sql.SQLException;
 @Controller
 public class ReportsController {
 
+    //Query top 10 countries by total vaccinations
     private static final String TOP_10_COUNT = "SELECT c.name as country ,v.total as total " +
         "FROM (SELECT SUM(daily_vaccinations) as total, iso_country " +
         "    FROM vaccinations " +
@@ -33,7 +26,8 @@ public class ReportsController {
         "ORDER BY v.total DESC " +
         "LIMIT 10 ";
 
-        private static final String BOT_10_COUNT = "SELECT c.name as country ,v.total as total " +
+    //Query bottom 10 countries by total vaccinations
+    private static final String BOT_10_COUNT = "SELECT c.name as country ,v.total as total " +
         "FROM (SELECT SUM(daily_vaccinations) as total, iso_country " +
         "    FROM vaccinations " +
         "        GROUP BY iso_country " +
@@ -44,7 +38,8 @@ public class ReportsController {
         "ORDER BY v.total ASC " +
         "LIMIT 10 ";
 
-        private static final String TOP_10_INF = "SELECT (inf.total * 100000 / c.population) as percent , c.name " +
+    //Query top 10 countries by total infections per 100k inhabitants
+    private static final String TOP_10_INF = "SELECT (inf.total * 100000 / c.population) as percent , c.name " +
         "FROM   (SELECT SUM(infections) as total, iso_country " +
 		"        FROM cases " +
 		"        GROUP BY iso_country) " +
@@ -54,6 +49,7 @@ public class ReportsController {
         "ORDER BY percent DESC " +
         "LIMIT 10 ";
 
+    //Establish connection to the database
     private Connection getConnection() {
         Connection connection = null;
         try {
@@ -64,6 +60,7 @@ public class ReportsController {
         return connection;
     }
     
+    //Stores query result in apropriate object
     public List<List<String>> getTop10Count() {
         List<List<String>> vaccCount = new ArrayList <>();
         try (Connection connection = getConnection()) {
@@ -82,6 +79,7 @@ public class ReportsController {
         return vaccCount;
     }
 
+    //Stores query result in apropriate object
     public List<List<String>> getBottom10Count() {
         List<List<String>> vaccCount = new ArrayList <>();
         try (Connection connection = getConnection()) {
@@ -100,6 +98,7 @@ public class ReportsController {
         return vaccCount;
     }
 
+    //Stores query result in apropriate object
     public List<List<String>> getTop10Inf() {
         List<List<String>> infPer100k = new ArrayList <>();
         try (Connection connection = getConnection()) {
@@ -118,6 +117,7 @@ public class ReportsController {
         return infPer100k;
     }
 
+    //Mock function to develop with no database connection
     public List<List<String>> getTop10CountDummy() {
         List<List<String>> count = new ArrayList<>();
         count.add(new ArrayList<>(){{add("China"); add("2825891952");}});
@@ -133,6 +133,7 @@ public class ReportsController {
         return count;
     }
 
+    //Mock function to develop with no database connection
     public List<List<String>> getBottom10CountDummy() {
         List<List<String>> count = new ArrayList<>();
         count.add(new ArrayList<>(){{add("Nauru"); add("168");}});
@@ -148,6 +149,7 @@ public class ReportsController {
         return count;
     }
 
+    //Mock function to develop with no database connection
     public List<List<String>> getTop10InfDummy() {
         List<List<String>> count = new ArrayList<>();
         count.add(new ArrayList<>(){{add("Andorra"); add("94971");}});
@@ -163,11 +165,12 @@ public class ReportsController {
         return count;
     }
 
+    //Adds query results to model and redirects to appropiate page
     @RequestMapping("/reports")
     public String showReports(ModelMap model) {
-        model.addAttribute("top10Count", getTop10CountDummy());
-        model.addAttribute("bot10Count", getBottom10CountDummy());
-        model.addAttribute("top10Percent", getTop10InfDummy());
+        model.addAttribute("top10Count", getTop10Count());
+        model.addAttribute("bot10Count", getBottom10Count());
+        model.addAttribute("top10Percent", getTop10Inf());
         System.out.println("reports");
         return "reports";
 	}
