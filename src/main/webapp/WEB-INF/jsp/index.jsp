@@ -5,6 +5,7 @@
         body {
             background-color:dimgrey;
         }
+
         .container {
             margin: auto;
             align-self: center;
@@ -35,29 +36,10 @@
             text-decoration: underline;
         }
 
-        .table-div {
-            background-color: white;
-            padding: 10px;
-            text-align: center;
-            width: fit-content;
-            align-self: center;
-        }
-
-        table, td, th{
-            border-spacing: 30px 10px;
-            text-align: right;
-        }
-
-        a{
+        a {
             color: inherit;
             text-decoration: none;
         }
-
-        table {
-            width: 100%;
-        }
-
-
     </style>
 </head>  
 <body>

@@ -16,6 +16,8 @@ import java.util.List;
 @Controller
 public class QueryController {
 
+    //Returns SQL query to get daily infections and deaths
+    //for given country up and including to the given date
     public String sqlQuery(String name, String date) {
         return "SELECT c.infections, c.deaths, c.recorded_date, cc.name " +
         "FROM cases as c " +
@@ -24,6 +26,7 @@ public class QueryController {
         "ORDER BY c.recorded_date DESC";
     }
 
+    //Establish connection to the database
     private Connection getConnection() {
         Connection connection = null;
         try {
@@ -34,6 +37,7 @@ public class QueryController {
         return connection;
     }
 
+    //Stores query result in apropriate object
     public List<List<String>> getQuery(String country, String date) {
         List<List<String>> result = new ArrayList <>();
         try (Connection connection = getConnection()) {
@@ -53,6 +57,7 @@ public class QueryController {
         return result;
     }
 
+    //Mock function to develop with no database connection
     public List<List<String>> getQueryDummy(String country, String date) {
         List<List<String>> result = new ArrayList<>();
         if(!country.equals("France")) return result;
@@ -152,12 +157,13 @@ public class QueryController {
         return result;
     }
 
+    //Adds query results to model and redirects to appropiate page
     @RequestMapping("/query")
     public String showReports(@RequestParam(required = false) String country, @RequestParam(required = false)
     String date, ModelMap model) {
         System.out.println("query");
         if(country != null && date != null) {
-            model.addAttribute("infectionsAndDeaths", getQueryDummy(country, date));
+            model.addAttribute("infectionsAndDeaths", getQuery(country, date));
         }
         return "query";
 	}
